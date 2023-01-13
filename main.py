@@ -1,9 +1,11 @@
 import math
 import random
 import moduler
+import os
 import moduler as m
 from moduler import slowtxt as print_
-from time import sleep as sleep
+from time import sleep
+
 
 #input till funktionerna, följer mallen tid, period , pengar
 data = []
@@ -26,6 +28,7 @@ data = [time, period, cash]
 
 moduler.setSpeed(0.001)
 
+os.system("color 2")
 print_
 print("""
  
@@ -70,7 +73,7 @@ while True:
         För att röra dig runt skriv simpla kommandon så som gå höger, gå rakt fram, gå till klassrummet, klassrum, prata med Gunnbritt eller liknande.
         
         """)
-        print_("Är du redo att börja ditt äventyrP? y/n")
+        print_("Är du redo att börja ditt äventyr? y/n")
         ready = input("-->")
         if ready == "y":
             break
@@ -86,7 +89,7 @@ while True:
 
 
 
-# The check function requieres an input following: choice, accepted values
+# The check function requieres an input following: choice, accepted strings
 # moduler.check returns true if one of the items in list is included in the user input
 
 # -- GAMESTART --
@@ -137,7 +140,8 @@ while True:
     
     elif m.check(choice,["exit","end", "quit","stäng av"]):
         print_("Hej då")
-        break
+        os.system("EXIT")
+        
     
     else:
         if missinput == 4:
