@@ -105,7 +105,7 @@ while True:
     # Controls the time and resets it to 7 when a new period begins
     if time == 0:
         period = period + 1
-        time = time + 7
+        time = time + 6
     #After the 3rd period you move into the final event instead of a 4th period. 
     if period > 3:
         moduler.finalboss()
@@ -130,7 +130,7 @@ while True:
    
     elif moduler.check(choice, []):
         # Bernard is the Janitor. Name can change later.
-        moduler.BernardCorridor(data)
+        moduler.bernardCorridor(data)
         
     elif moduler.check(choice, []):
         pass

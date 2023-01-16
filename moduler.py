@@ -3,7 +3,8 @@ from time import sleep as sleep
 from playsound import playsound
 import os
 anger = 0
-
+brittasOverwatch = True
+eee = "re"
 
 items = ["bomb", "Farmor bertas aska", "Gregs ADHD piller, Cigarette"]
 
@@ -21,9 +22,10 @@ def slowtxt(text):
     print("\n")
 
 def check(answer, wanted):
-    "Checks if the desired string is in the answer"
+    "Checks if the desired string is in the answer follor answer , wanted"
+    answer = answer.lower()
     for word in wanted:
-        if answer != None and word in answer:
+        if answer is not None and word in answer:
             return True
     
         else:
@@ -103,27 +105,92 @@ def classroom(time, name, anger):
         choice =  input("-->")
 
         if choice == 1:
-            gunn-marie() 
+            gunn_marieclassroom() 
         if choice == 2:
-            britta()
+            brittaclassroom()
         #anger ska behållas i moduler, 3 anger för atombomb. gunn marie och britta funktioner ska ligga i moduler.py. 
 
 def food():
     pass
 
-def BernardKorridor(time):
+def bernardCorridoor(time):
     slowtxt(f"""Hallå där borta, vad gör du ute i korridoren så här sent, borde inte du ha lektion? 
-                Vet du vad, jag bryr mig inte, kan du hjälpa mig bära den här påsen till sopptunnan? \n \n 
-                På golvet bredvid Bernard ligger en svart påse så full att det läcker någon vätska från öppningen.
-                 Det ser ut som ketchup, den kanske kommer från matsalen? Jag skulle kunna fråga honom eller bara hjälpa till. """)
+                Vet du vad, jag bryr mig inte, kan du hjälpa mig bära den här säcken till köket?\n \n 
+                På golvet bredvid Bernard ligger en skumt formad påse. Jag är sen men borde jag hjälpa eller bara gå till klassrummet?""")
     time = time - 1
 
+    
+
 def bathroom():
+    "The room bathroom, only incudes interactions with 'Ragnar'"
+    ShopItems = ["kapten Konrads Krut - 10 Riksdaler", 
+                        "Gunnar Gröna Gummibjönar - 3 Riksdaler", 
+                        "Pers pallade äpplen - 4 Riksdaler",
+                        "Kalles Kristall Godis - 9 Riksdaler"]
+                        
     slowtxt("""Du tar ett stort kliv in i det mörka rummet med endast en lampa som fungerar. /n 
-    Borta i andra änden av rummet så står en klasskammrat och skymer sig i mörkret \n \n Vill du spela """)
-    pass
+    Borta i andra änden av rummet så står en klasskammrat och skymer sig i mörkret\n
+    Vill du kasta tärning eller vill du ta en titt på mitt utbud?, efter en sekund så fortsätter han; 
+    \n Annars så sticker du här i från!\n""")
+    slowtxt("Stannar du kvar, eller går du ut?")
+    YN = input("-->")
+
+    if check(input("-->"), ["ja", "stanna", "yes" , "spela", "köpa"]):
+        slowtxt("Så vad blir det, köpa eller spela?")
+        RagnarMenu = input("-->")
+        if check(RagnarMenu, ["köpa", "affär"]):
+            shopItems = ["1. kapten Konrads Krut - 10 Riksdaler", 
+                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler", 
+                        "3. Pers pallade äpplen - 4 Riksdaler",
+                        "4. Kalles Kristall Godis - 9 Riksdaler"]
+            
+            for item in shopItems:
+                pass
+            
+             
+            
+            
+            
+            
+        
+    
 
 def finalboss():
     pass
 
 # NPC
+
+def brittaclassroom():
+    
+    slowtxt(f"""Hörrudu, ska inte du jobba eller?)
+
+def gunn_marieclassroom():
+    pass
+
+def ragnarsdesk(time):
+    if brittasOverwatch == True:    
+        
+        slowtxt(f"""Du går för att öppna Ragnars bänk, kanske finns något intressant där inne?  
+        \"Hörrudu! Det där är väl ändå inte din bänk eller? Tillbaks din din plats eller så skickar jag dig till rektorn!\" 
+        hör du Britta säga. Jag får testa igen när hon är distraherad. """)
+        anger = anger + 1
+        time = time + 1
+
+    else:
+
+        slowtxt(f"""Du går för att öppna Ragnars bänk, det kanske finns något intressant där inne? 
+        Du öppnar bänken och det ser ut som ett totalt bombnedslag, saker överallt. 
+        Du fortsätter rota runt lite tills du ser något glansigt.""")
+
+        if check(input(), ["Ja", "ja", "Inspektera", "inspektera", ])
+
+            slowtxt(f"""Du tar upp objektet. Det verkar vara någon sorts TEMPORARY.
+             Du lägger den snabbt i fickan och stänger Ragnars bänk innan Britta ser något.""")
+
+            addinv("Ragnars objekt")
+            time = time + 1
+        else:
+
+            slowtxt(f"""Du lägger tillbacka objektet och stänger Ragnars bänk innan Britta ser något""")
+            time = time + 1
+            

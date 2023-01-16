@@ -1,9 +1,28 @@
+import os
+from time import sleep
+balls = ""
+a = "██████╗░░█████╗░░██████╗░██╗░██████╗███████╗████████"
+b = "██╔══██╗██╔══██╗██╔════╝░██║██╔════╝██╔════╝╚══██╔══╝"
+c = "██║░░██║███████║██║░░██╗░██║╚█████╗░█████╗░░░░░██║░░░"
+d = "██║░░██║██╔══██║██║░░╚██╗██║░╚═══██╗██╔══╝░░░░░██║░░░"
+e = "██████╔╝██║░░██║╚██████╔╝██║██████╔╝███████╗░░░██║░░░"
+f = "╚═════╝░╚═╝░░╚═╝░╚═════╝░╚═╝╚═════╝░╚══════╝░░░╚═╝░░░"
+nuts = ["b", "x", "r"]
+space = 50
+os.system("color a")
 
+for x in range(10):
+    for i in range(60):
+        os.system("cls")
+        a = " " + a
+        print(a)
+        sleep(0.01)
 
-class te21c:
-    gay = True
+    for omgång in range(60):
+        os.system("cls")
+        a = a[1:]
+        print(a)
+        sleep(0.01)
 
-homo = te21c()
-
-if homo:
-    print(homo.gay)
+print(balls)
+print("1" + balls)
