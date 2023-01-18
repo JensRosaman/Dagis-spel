@@ -1,17 +1,23 @@
-n = "KALLEe"
+from time import sleep
+import os
+txt = ""
+print("du e hay", end="\r")
+print("                                                                                 ", end="\r")
+print("bob")
 
-n = n.lower()
-print(n)
 
-def check(answer, wanted):
-    "Checks if the desired string is in the answer follor answer , wanted"
-    answer = answer.lower()
-    for word in wanted:
-        if answer is not None and word in answer:
-            return True
-    
-        else:
-            return False
+oss = os.get_terminal_size().columns
+print(oss)
 
-if check("Bob",["bob"]):
-    print("bob")
+
+for i in range(123):
+    txt = txt + "r"
+
+print(txt)
+
+
+class foobar():
+    bob = 4
+    oo = 3
+
+print(foobar.bob)

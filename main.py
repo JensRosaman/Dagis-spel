@@ -17,27 +17,23 @@ missinput = 0
 # The game runs in cycles with each one having a limited and exclusive set of things to do.
 time = 6
 period = 1 
-
 data = [time, period, cash]
 
 #print_ ersätter print i vår kod
 #print_ är print fast långsammare
 
 
-# Main menu system, allows for instructions and //settings//
-
-moduler.setSpeed(0.001)
-
+moduler.setSpeed(6)
 os.system("color 2")
-print_
+
 print("""
  
-██████╗░░█████╗░░██████╗░██╗░██████╗███████╗████████╗
-██╔══██╗██╔══██╗██╔════╝░██║██╔════╝██╔════╝╚══██╔══╝
-██║░░██║███████║██║░░██╗░██║╚█████╗░█████╗░░░░░██║░░░
-██║░░██║██╔══██║██║░░╚██╗██║░╚═══██╗██╔══╝░░░░░██║░░░
-██████╔╝██║░░██║╚██████╔╝██║██████╔╝███████╗░░░██║░░░
-╚═════╝░╚═╝░░╚═╝░╚═════╝░╚═╝╚═════╝░╚══════╝░░░╚═╝░░░   
+            ██████╗░░█████╗░░██████╗░██╗░██████╗███████╗████████╗
+            ██╔══██╗██╔══██╗██╔════╝░██║██╔════╝██╔════╝╚══██╔══╝
+            ██║░░██║███████║██║░░██╗░██║╚█████╗░█████╗░░░░░██║░░░
+            ██║░░██║██╔══██║██║░░╚██╗██║░╚═══██╗██╔══╝░░░░░██║░░░
+            ██████╔╝██║░░██║╚██████╔╝██║██████╔╝███████╗░░░██║░░░
+            ╚═════╝░╚═╝░░╚═╝░╚═════╝░╚═╝╚═════╝░╚══════╝░░░╚═╝░░░   
 """)
 print("         Gjord av Vidar Borg och Oliver Granäng")
 print_("""
@@ -57,6 +53,7 @@ nuts = ["               1.Starta spelet",
 for deez in nuts:
     print_(deez)
 
+os.system("color")
 menuChoice = input("\n-->")
 
 while True:
@@ -115,7 +112,7 @@ while True:
    
     
     if moduler.check(choice, ["klassrum", "raktfram", "klassrummet", "frammåt"]):
-        moduler.classroom(time, name)
+        moduler.classroom(time, name, 0)
     
     #Bathroom
     elif moduler.check(choice, []):
