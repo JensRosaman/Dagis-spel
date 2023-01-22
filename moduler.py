@@ -54,12 +54,12 @@ def clear():
 # Inventory functions 
 
 def addinv(newItem):
-    'Adds a new item to the inventory'
+    'Adds a new item to the inventory usage: addinv("THE ITEM")'
     newItem = str(newItem)
     items.append(newItem)
 
 def extractItem(extrRquest):
-    "Checks if the requested item is in the inventory and removes it"
+    "Checks if the requested item is in the inventory and removes it usage: extractItem("
     if extrRquest in items:
         items.remove(extrRquest)
         return extrRquest
