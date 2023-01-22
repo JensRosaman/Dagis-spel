@@ -1,6 +1,5 @@
 import random as rand
 from time import sleep as sleep
-from playsound import playsound
 import os
 
 
@@ -39,7 +38,7 @@ def slowtxt(text):
     print("\n")
 
 def check(answer, wanted):
-    "Checks if the desired string is in the answer follows answer , wanted"
+    "Checks for a list of substrings inside the argument usage: check(ARGUMENT,[LIST OF WANTED SUBSTRINGS])"
     answer = answer.lower()
     for word in wanted:
         if answer is not None and word in answer:

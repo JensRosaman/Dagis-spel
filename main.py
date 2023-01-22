@@ -2,7 +2,6 @@ import math
 import random
 import moduler
 import os
-import moduler as m
 from moduler import slowtxt as print_
 from time import sleep
 
@@ -57,10 +56,10 @@ os.system("color")
 menuChoice = input("\n-->")
 
 while True:
-    if menuChoice == "1":
+    if moduler.check(menuChoice,["start", "spel", "1"]):
         break
 
-    elif menuChoice == "2":
+    elif moduler.check(menuChoice,["instruktioner", "2"]):
         print_("""
         Spelet utspelar sig en vanlig dag på ditt dagis där du har ett matteprov som du inte har studerat till.
         Du måste hitta något sätt att klara provet för du vet att din mamma kommer bli väldigt besviken på dig annars.
@@ -76,7 +75,7 @@ while True:
             break
 
     # Settings
-    elif menuChoice == "3":
+    elif moduler.check(menuChoice,["inställning", "3"]):
         print_("Vilken texthastighet vill du ha? - obs endast tal inga bokstäver")
 
         txtSpeed = input("-->")
@@ -91,7 +90,7 @@ while True:
 
 # -- GAMESTART --
 #The game/ the room "korridor" is the interconnecting room between all other rooms and acts as a hub
-m.clear()
+moduler.clear()
 print_("\nDu rusar in i korridoren med endast 3 minuter kvar tills lektionen börjar\n Rakt fram ligger klassrummet och till vänster ligger toaletterna där du hör någon böka runt. Till höger om dig ligger matsalen och dörren bakom dig leder tillbaks till skolgården. \nVart går du?")
 
 while True:
@@ -135,7 +134,7 @@ while True:
     elif moduler.check(choice, ["inventory", "inv"]):
         moduler.inventory(data)
     
-    elif m.check(choice,["exit","end", "quit","stäng av"]):
+    elif moduler.check(choice,["exit","end", "quit","stäng av"]):
         print_("Hej då")
         os.system("EXIT")
         
