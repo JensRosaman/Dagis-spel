@@ -46,17 +46,16 @@ print("                         Välkommen\n")
 # Main menu which allows selection between options, instructions and starting the game
 print_("\nOm det är första gången du spelar rekomenderas att läsa instruktionerna.\n")
 
-nuts = ["               1.Starta spelet", 
-        "               2.Instruktioner",
-        "               3.Inställningar"]
-for deez in nuts:
-    print_(deez)
+print_("""                
+                          1.Starta spelet\n
+                          2.Instruktioner\n
+                          3.Inställningar\n""")
 
 os.system("color")
-menuChoice = input("\n-->")
 
 while True:
-    if moduler.check(menuChoice,["start", "spel", "1"]):
+    menuChoice = input("\n-->")
+    if moduler.check(menuChoice,["starta", "spela", "1"]):
         break
 
     elif moduler.check(menuChoice,["instruktioner", "2"]):
@@ -85,13 +84,17 @@ while True:
 
 
 
+
+
 # The check function requieres an input following: choice, accepted strings
 # moduler.check returns true if one of the items in list is included in the user input
 
 # -- GAMESTART --
 #The game/ the room "korridor" is the interconnecting room between all other rooms and acts as a hub
 moduler.clear()
-print_("\nDu rusar in i korridoren med endast 3 minuter kvar tills lektionen börjar\n Rakt fram ligger klassrummet och till vänster ligger toaletterna där du hör någon böka runt. Till höger om dig ligger matsalen och dörren bakom dig leder tillbaks till skolgården. \nVart går du?")
+print_("""\nDu rusar in i korridoren med endast 3 minuter kvar tills lektionen börjar
+    Rakt fram ligger klassrummet och till vänster ligger toaletterna där du hör någon böka runt. 
+    Till höger om dig ligger matsalen och dörren bakom dig leder tillbaks till skolgården. \nVart går du?""")
 
 while True:
     data = [time,period,cash]
@@ -114,29 +117,27 @@ while True:
         moduler.classroom(time, name, 0)
     
     #Bathroom
-    elif moduler.check(choice, []):
-            moduler.bathroom(data)
+    elif moduler.check(choice, ["badrummet", "vänster", "toaletten", "toalett"]):
+            moduler.bathroom()
         
     #Bamba
-    elif moduler.check(choice, []):
+    elif moduler.check(choice, ["höger", "matsalen", "matsalen"]):
             if period < 2:
                 print_("Förvånade så är matsalen bara öppen när det är MAT, kom tillbaka senare")
             else:
-                moduler.food(data)
+                moduler.food()
    
     elif moduler.check(choice, []):
         # Bernard is the Janitor. Name can change later.
-        moduler.bernardCorridor(data)
+        moduler.bernardCorridor()
         
     elif moduler.check(choice, []):
         pass
 
-    elif moduler.check(choice, ["inventory", "inv"]):
-        moduler.inventory(data)
+    elif moduler.check(choice, ["väska"]):
+        moduler.inventory()
     
-    elif moduler.check(choice,["exit","end", "quit","stäng av"]):
-        print_("Hej då")
-        os.system("EXIT")
+    
         
     
     else:

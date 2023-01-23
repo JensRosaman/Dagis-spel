@@ -3,19 +3,9 @@ import random as rand
 
 def slots(para):
     "Kastar två tärningar och ger"
-    #lista följer mallen [creds , bet]
     resultat = []
     tal = [1 , 2 , 3 , 4, 5, 6]
-    if input("Vill du muta personalen? y/n") == "y":
-        muta = input("Hur mycket?\n-> 20\n-> 30 ")
-        
-        if muta == "20" or muta == "30":
-            muta = int(muta)
-            para[1] = para[1] - muta
-        
-            while muta >= 1:
-                tal.append(5)
-                muta = muta - 10
+   
 
     resultat.append(rand.choice(tal))
     resultat.append(rand.choice(tal))
@@ -34,23 +24,21 @@ def slots(para):
         return totcreds
 
 
-para = []
-with open("save.txt", "r") as txt:
-    creds = txt.read()
-    txt.close()
-creds = int(creds)
-print("Du har just nu ", credsl)
-para.append(creds)
-para.append(int(float(input("hur mkt bettar du"))))
+def dices():
+    dieNumber = [1 , 2 , 3 , 4, 5, 6]
+    result = []
+    diceBet = input("-->")
+    
+    result.append(rand.choice(dieNumber))
+    result.append(rand.choice(dieNumber))
+    print(result)
 
-creds = slots(para)
-creds = str(creds)
-with open("save.txt", "w") as txt:
-    txt.write(creds)
-    txt.close()
-print("Du har nu ", creds, "credits")
+    if len(set(result)) == 1:
+        diceBet = int(diceBet) * 2
+        
 
-   
+        print("Du vann")
 
 
 
+dices()
