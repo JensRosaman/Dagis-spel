@@ -4,8 +4,8 @@ import keyboard as k
 
 
 balls = ""
-a = "██████╗░░█████╗░░██████╗░██╗░██████╗███████╗████████"
-b = "██╔══██╗██╔══██╗██╔════╝░██║██╔════╝██╔════╝╚══██╔══╝"
+a = "-----------------------------------------------------"
+b = "█████████████████████████████████████████████████████"
 c = "██║░░██║███████║██║░░██╗░██║╚█████╗░█████╗░░░░░██║░░░"
 d = "██║░░██║██╔══██║██║░░╚██╗██║░╚═══██╗██╔══╝░░░░░██║░░░"
 e = "██████╔╝██║░░██║╚██████╔╝██║██████╔╝███████╗░░░██║░░░"
@@ -39,9 +39,9 @@ while not k.is_pressed(" ") and stopPressed is False:
         if k.is_pressed(" "):
             stopPressed = True
             break
-
 ## Stage two
-sleep(0.05)
+sleep(1)
+
 stopPressed = False 
 while not k.is_pressed(" ") and stopPressed is False:
     while len(b) != width:
@@ -67,5 +67,8 @@ while not k.is_pressed(" ") and stopPressed is False:
             stopPressed = True
             break 
 
-print(balls)
+print("\n")
+print(a)
+a = a.strip(" ")
+print(a)
 print("1" + balls)
