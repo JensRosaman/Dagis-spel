@@ -15,6 +15,7 @@ stopPressed = False
 space = ""
 width = os.get_terminal_size().columns
 aLen = len(a)
+bLen = len(b)
 
 
 os.system("color a")
@@ -25,7 +26,7 @@ while not k.is_pressed(" ") and stopPressed is False:
         os.system("cls")
         a = " " + a
         print(a)
-        sleep(0.01)
+        sleep(0.1)
         if k.is_pressed(" "):
             stopPressed = True
             break
@@ -40,45 +41,31 @@ while not k.is_pressed(" ") and stopPressed is False:
             break
 
 ## Stage two
-
-stopPressed = False
-while not k.is_pressed("s") and stopPressed is False:
-    for x in range(60):
+sleep(0.05)
+stopPressed = False 
+while not k.is_pressed(" ") and stopPressed is False:
+    while len(b) != width:
         length = len(b) - 1
         for i in range(length):
-            space = space + " "
+            space = space
 
         print(space, end="\r")
-        b = " " + b + "\r"
+        b = " " + b
         print(b, end="\r")
         sleep(0.1)
-        if k.is_pressed("s"):
-            stopPressed = True
+        if k.is_pressed(" "):
+            stopPressed = True 
             break
 
-    for x in range(60):  
+    while len(b) != bLen:
         length = len(b) - 1
-        for i in range(length):
-            space = space + " "
-  
         print(space, end="\r")
         b = b[1:]
         print(b, end="\r")
         sleep(0.01)
-        if k.is_pressed("s"):
+        if k.is_pressed(" "):
             stopPressed = True
             break 
-
-
- 
-
- 
-
-
-
-
-
-
 
 print(balls)
 print("1" + balls)
