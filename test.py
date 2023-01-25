@@ -6,18 +6,13 @@ print("                                                                         
 print("bob")
 
 
-oss = os.get_terminal_size().columns
-print(oss)
-
-
-for i in range(123):
-    txt = txt + "r"
 
 print(txt)
+answer = "2"
+wanted = ["ge", "2"]
 
-
-class foobar():
-    bob = 4
-    oo = 3
-
-print(foobar.bob)
+answer = answer.lower()
+for word in wanted:
+    if answer is not None and word in answer:
+        print("d")
+        break

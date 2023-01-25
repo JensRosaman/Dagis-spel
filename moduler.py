@@ -1,6 +1,5 @@
 import random as rand
 from time import sleep as sleep
-from playsound import playsound
 import os
 
 
@@ -17,7 +16,10 @@ class npc:
 class data:
     cash = 5
 
-    
+shopItems = ["1. kapten Konrads Krut - 10 Riksdaler", 
+                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler", 
+                        "3. Pers pallade äpplen - 4 Riksdaler",
+                        "4. Kalles Kristall Godis - 9 Riksdaler"]    
     
 
     
@@ -25,28 +27,39 @@ class data:
 
 
 def setSpeed(txtSpeed):
-    "Sets the speed for the slowtxt function, requires a number between 1 - 10 where 1 is the slowest"
+    "Sets the speed for the slowtxt function, requires a number between 1 - 10 where 1 is the slowest usage: setspeed(INTEGER)"
     txtSpeed = txtSpeed ** -1
     txtSpeed = txtSpeed / 100
     global textSpeed
     textSpeed = txtSpeed
 
 def slowtxt(text):
-    "Outputs strings one charachter at a time with a delay dictated by the 'setspeed()' function usage: inputs a string as a argument"
+    "Outputs strings one charachter at a time with a delay dictated by the 'setspeed()' usage: slowtext(STRING)    "
     for char in text:
         print(char, end="",flush=True)
         sleep(textSpeed)
     print("\n")
 
 def check(answer, wanted):
-    "Checks if the desired string is in the answer follows answer , wanted"
+    "Checks for a list of substrings inside the argument usage: if check(INPUT,[LIST OF WANTED SUBSTRINGS]):"
     answer = answer.lower()
+
+    # Block of code checks for special commands such as inventory
+    if "väska" in answer:
+        inventory()
+        return False
+
+    elif "avsluta" in answer:
+        slowtxt("Hejdå O/")
+        sleep(1)
+        os.system("EXIT")
+
+
     for word in wanted:
         if answer is not None and word in answer:
             return True
     
-        else:
-            return False
+    return False
 
 
 def clear():
@@ -55,12 +68,12 @@ def clear():
 # Inventory functions 
 
 def addinv(newItem):
-    'Adds a new item to the inventory'
+    'Adds a new item to the inventory usage: addinv("THE ITEM")'
     newItem = str(newItem)
     items.append(newItem)
 
 def extractItem(extrRquest):
-    "Checks if the requested item is in the inventory and removes it"
+    "Checks if the requested item is in the inventory and removes it usage: extractItem("
     if extrRquest in items:
         items.remove(extrRquest)
         return extrRquest
@@ -158,20 +171,29 @@ def bernardCorridoor(time):
     time = time - 1
 
     
-# Ej klar , lägg till check om man träffat hnm
+
 def bathroom():
     "The room bathroom, only incudes interactions with 'Ragnar'"
     ShopItems = ["kapten Konrads Krut - 10 Riksdaler", 
                         "Gunnar Gröna Gummibjönar - 3 Riksdaler", 
                         "Pers pallade äpplen - 4 Riksdaler",
                         "Kalles Kristall Godis - 9 Riksdaler"]
-    if npc.ragnarMet is True:                      
-        slowtxt("""Du tar ett stort kliv in i det mörka rummet med endast en lampa som fungerar. /n 
+    if npc.ragnarMet is False:                      
+        slowtxt("""Du tar ett stort kliv in i det mörka rummet med endast en lampa som fungerar.
         Borta i andra änden av rummet så står en klasskammrat och skymer sig i mörkret\n""")
+        npc.ragnarMet = True
+
+    else:
+        slowtxt("""När du återigen stiger in i det illa luktande badrummet så står en bekant skepnad på samma ställe. """)
     
     
-    slowtxt("""Vill du kasta tärning eller vill du ta en titt på mitt utbud?, efter en sekund så fortsätter han; 
-    \n Annars så tycker jag att du drar här ifrån!\n""")
+    
+    slowtxt("""
+    Vill du kasta tärning eller vill du ta en titt på mitt utbud?, efter en sekund så fortsätter han; 
+    
+    - Annars så tycker jag att du drar här ifrån!\n""")
+    
+    
     slowtxt("Stannar du kvar, eller går du ut?")
     
     # The shop
@@ -179,19 +201,90 @@ def bathroom():
         slowtxt("Så vad blir det, köpa eller spela?")
         ragnarMenu = input("-->")
         if check(ragnarMenu, ["köpa", "affär"]):
-            shopItems = ["1. kapten Konrads Krut - 10 Riksdaler", 
-                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler", 
-                        "3. Pers pallade äpplen - 4 Riksdaler",
-                        "4. Kalles Kristall Godis - 9 Riksdaler"]
+            rangnarShop()
+
+        elif check(ragnarMenu, ["spela", "casino", "tärning"]):
+            rangarDices()
+
+
+
+
+
+def rangarDices():
+    "Gambeling randomizes two number and a match yields a win"
+    dieNumber = [1 , 2 , 3 , 4, 5, 6]
+    result = []
+    badInput = 0
+    print("\nDu har just nu ", data.cash)
+    slowtxt("""Hur mycket bettar du?
+    Det rekomenderas att bara försöka beta pengar i heltal, Rangar gillar inte folk som leker run med han""")
+    while True:
+        diceBet = input("-->")
+
+        # If thy shan't follow basic intstructions than thy shall feel order 66,  If the user writes the wrong input ten times kill the program 
+        if badInput == 10:
+            os.system("cls")
+            sleep(0.5)
+            slowtxt("""
+            Rangar bröt många av dem tio budorden den dagen 
+            och du slapp göra matteprovet för du är nu på en bättre plats.""")
+            slowtxt("Må du vila i frid")
+            sleep(1)
+            os.system("exit")
+        
+        try:
+            diceBet = int(diceBet)
+            break
+
+        except:
+            slowtxt("Du kan bara betta pengar, så skriv ett vanligt heltal utan skräp innan Rangar bankar ner dig")
+            badInput = badInput + 1
+
+    # Simulates two dices being thrown and adds them to the result
+    result.append(rand.choice(dieNumber))
+    slowtxt("Din första tärning blev:")
+    print(result[0])
+    result.append(rand.choice(dieNumber))
+    slowtxt("Din andra tärning blev:")
+    print(result[1])
+    print(result)
+
+    # When the two dices match the set operation removes one of them and results in the length = 1
+    if len(set(result)) == 1:
+        diceBet = int(diceBet) * 2
+        
+
+        print("Du vann")
+
+def rangnarShop():
+    "Handles all of the shop from the NPC Rangar"
+    for item in shopItems:
+        slowtxt(item)        
             
-            for item in shopItems:
-                print(item)
+    print(f"\nJust nu har du {data.cash} riksdaler")
+    slowtxt("- Så vad blir det?")
             
-            print(f"Just nu har du {data.cash}")
-            slowtxt("- Så vad blir det?")
-            
-            while True:
-                pass
+    while True:
+        shopChoice = input("\n-->")
+        if check(shopChoice, ["kapten", "konrads" ,"krut","1"]):
+                addinv("kapten Konrads Krut")
+                
+        elif check(shopChoice, ["2" "gunnar" "gröna" "gummibjönar"]):
+                addinv("Gunnar Gröna Gummibjönar")
+
+        elif check(shopChoice, ["3" "Pers" "pallade" "päron"]):
+                addinv("Pers pallade äpplen")
+                
+        elif check(shopChoice, ["4", "kalles", "kristall", "godis"]):
+                addinv("Kalles Kristall Godis")
+
+        slowtxt("\nNågot mer?")
+
+        if check(input("-->"), ["n","nej","nope"]):
+                    
+            break        
+                
+                
             
             
              
@@ -222,7 +315,7 @@ def britta():
             slowtxt(f"""Nähä? Vad gör du här då, tillbaks till din bänk innan jag tar fram tofflan!""")
 
     if period == 2:
-        if brittaCrystal == True:
+        if npc.brittaCrystal == True:
             slowtxt(""" - Hallå elever får inte lämna matsalen under lunchen.
             Fast du råkar inte veta var det finns mer kristallgodis eller? 
             Om du gör det kan du ju gå och hämta det till Britta. Vill du ut?"""
@@ -230,7 +323,7 @@ def britta():
             )
             if yes:
                 slowtxt(""" - Om du inte kommer tillbaka med något godis blir det tofflan! Och säg inte om det här till någon!""")
-                #till korridoren med dig
+                
         else: 
             slowtxt(""" - Hallå elever får inte lämna matsalen under lunchen. Fast vänta, du råkar inte ha något blått kristallgodis eller?""")
             if yes:
