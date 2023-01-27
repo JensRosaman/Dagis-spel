@@ -6,8 +6,8 @@ import keyboard as k
 balls = ""
 a = "-----------------------------------------------------"
 b = "█████████████████████████████████████████████████████"
-c = "██║░░██║███████║██║░░██╗░██║╚█████╗░█████╗░░░░░██║░░░"
-d = "██║░░██║██╔══██║██║░░╚██╗██║░╚═══██╗██╔══╝░░░░░██║░░░"
+c = "█████████████████████████████████████████████████████"
+d = "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
 e = "██████╔╝██║░░██║╚██████╔╝██║██████╔╝███████╗░░░██║░░░"
 f = "╚═════╝░╚═╝░░╚═╝░╚═════╝░╚═╝╚═════╝░╚══════╝░░░╚═╝░░░"
 nuts = ["b", "x", "r"]
@@ -16,7 +16,7 @@ space = ""
 width = os.get_terminal_size().columns
 aLen = len(a)
 bLen = len(b)
-
+ 
 
 os.system("color a")
 
@@ -68,7 +68,33 @@ while not k.is_pressed(" ") and stopPressed is False:
             break 
 
 print("\n")
-print(a)
+sleep(1)
+
+stopPressed = False 
+while not k.is_pressed(" ") and stopPressed is False:
+    while len(c) != width:
+        length = len(c) - 1
+        for i in range(length):
+            space = space
+
+        print(space, end="\r")
+        c = " " + c
+        print(c, end="\r")
+        sleep(0.1)
+        if k.is_pressed(" "):
+            stopPressed = True 
+            break
+
+    while len(c) != bLen:
+        length = len(c) - 1
+        print(space, end="\r")
+        c = c[1:]
+        print(c, end="\r")
+        sleep(0.01)
+        if k.is_pressed(" "):
+            stopPressed = True
+            break 
+print("\n")
 a = a.strip(" ")
 print(a)
 print("1" + balls)

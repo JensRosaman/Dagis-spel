@@ -1,7 +1,5 @@
-import math
-import random
-import moduler
 import os
+import moduler
 from moduler import slowtxt as print_
 from time import sleep
 
@@ -15,7 +13,7 @@ missinput = 0
 # When time runs out during 1 period you move to the next one and your time resets back to 7.
 # The game runs in cycles with each one having a limited and exclusive set of things to do.
 time = 6
-period = 1 
+period = 1
 data = [time, period, cash]
 
 #print_ ersätter print i vår kod
@@ -118,13 +116,13 @@ while True:
     
     #Bathroom
     elif moduler.check(choice, ["badrummet", "vänster", "toaletten", "toalett"]):
-            moduler.bathroom()
+        moduler.bathroom()
         
     #Bamba
     elif moduler.check(choice, ["höger", "matsalen", "matsalen"]):
-            if period < 2:
-                print_("Förvånade så är matsalen bara öppen när det är MAT, kom tillbaka senare")
-            else:
+        if period < 2:
+            print_("Förvånade så är matsalen bara öppen när det är MAT, kom tillbaka senare")
+        else:
                 moduler.food()
    
     elif moduler.check(choice, []):
@@ -136,10 +134,7 @@ while True:
 
     elif moduler.check(choice, ["väska"]):
         moduler.inventory()
-    
-    
-        
-    
+
     else:
         if missinput == 4:
             missinput = 0

