@@ -94,29 +94,56 @@ def TicTacToe():
 
 
 def rockPaperScissor():
-  playerInput = input("Vad väljer du?")
+  "Simulates a game of rockpaper scissors Gets input from the user and randomizes its own and returns the result"
+  stop = True
+  while stop:
+    
+    playerInput = input("-->").lower()
+    for acceptedInput in ["sten" , "sax" , "påse"]:
+      if acceptedInput in playerInput:
+        playerInput = acceptedInput
+        stop = False
+        break
+
   botPick = random.choice(range(2))
   print(botPick)
   
-  while True
-    # Assignes a string based on the randomized number
-    if botPick == 0:
-      botPick = "sten"
+  
+# Assignes a string based on the randomized number
+  
+  if botPick == 0:
+    botPick = "sten"
     
-    elif botPick == 1:
-      botPick = "sax"
+  elif botPick == 1:
+    botPick = "sax"
 
-    elif botPick == 2:
-      botPick = "påse"
+  elif botPick == 2:
+    botPick = "påse"
 
-    # Compares the bots choice and the player and checks for win conditions
-    
-    if botPick == "sten" and playerInput == "sax":
-      
-      rockPaperScissorResult = "win"
+  # Compares the bots choice and the player and checks for win conditions
+
+  if botPick == playerInput:
+    return "draw"
+
+  elif botPick == "sten":
+    if playerInput == "påse":
       return "win"
+    else:
+      return "loss"
+
+  elif botPick == "påse":
+    if playerInput == "sax":
+      return "win"
+    else:
+      return "loss"
+    
+  elif botPick == "sax":
+    if playerInput == "sten":
+      return "win"
+  else:
+    return "draw"    
 
 
 
 
-rockPaperScissor()
+print(rockPaperScissor())
