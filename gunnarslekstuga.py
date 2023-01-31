@@ -106,7 +106,7 @@ def rockPaperScissor():
         break
 
   botPick = random.choice(range(2))
-  print(botPick)
+  
   
   
 # Assignes a string based on the randomized number

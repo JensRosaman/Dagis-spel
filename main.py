@@ -39,10 +39,10 @@ print_("""
 
 sleep(1)
 
-print("                         Välkommen\n")
+print("                         Välkommen")
 
 # Main menu which allows selection between options, instructions and starting the game
-print_("\nOm det är första gången du spelar rekomenderas att läsa instruktionerna.\n")
+print_("Om det är första gången du spelar rekomenderas att läsa instruktionerna.\n")
 
 print_("""                
                           1.Starta spelet\n

@@ -196,7 +196,7 @@ def bathroom():
     slowtxt("""
     Vill du kasta tärning eller vill du ta en titt på mitt utbud?, efter en sekund så fortsätter han; 
     
-    - Annars så tycker jag att du drar här ifrån!\n""")
+    - Annars så tycker jag att du drar här ifrån för här är det endast Rangar och hans kunder som får härja!\n""")
     
     
     slowtxt("Stannar du kvar, eller går du ut?")
@@ -210,6 +210,9 @@ def bathroom():
 
         elif check(ragnarMenu, ["spela", "casino", "tärning"]):
             rangarDices()
+        
+        elif check(ragnarMenu, ["gå", "ut", "nej"]):
+            
 
 
 
@@ -230,8 +233,7 @@ def rockPaperScissor():
   botPick = random.choice(range(2))
   print(botPick)
   
-  
-# Assignes a string based on the randomized number
+ # Assignes a string based on the randomized number
   
   if botPick == 0:
     botPick = "sten"
@@ -243,7 +245,7 @@ def rockPaperScissor():
     botPick = "påse"
 
   # Compares the bots choice and the player and checks for win conditions
-
+    
   if botPick == playerInput:
     return "draw"
 
@@ -407,6 +409,7 @@ def rangarDices():
 
 def rangnarShop():
     "Handles all of the shop from the NPC Rangar"
+    slowtxt("Här är det jag har att erbjuda:")
     for item in shopItems:
         slowtxt(item)        
             
@@ -416,6 +419,7 @@ def rangnarShop():
     while True:
         shopChoice = input("\n-->")
         if check(shopChoice, ["kapten", "konrads" ,"krut","1"]):
+
                 addinv("kapten Konrads Krut")
                 
         elif check(shopChoice, ["2" "gunnar" "gröna" "gummibjönar"]):
