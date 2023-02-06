@@ -4,7 +4,7 @@ import keyboard as k
 
 
 balls = ""
-a = "-----------------------------------------------------"
+a = "█████████████████████████████████████████████████████"
 b = "█████████████████████████████████████████████████████"
 c = "█████████████████████████████████████████████████████"
 d = "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
@@ -16,24 +16,29 @@ space = ""
 width = os.get_terminal_size().columns
 aLen = len(a)
 bLen = len(b)
- 
+index = 0
 
-os.system("color a")
+colors = ["0", "1","2","3","4","5","6","7","8","9","a"]
+print("color" + colors[1])
+os.system("color " + colors[1])
 
 
 while not k.is_pressed(" ") and stopPressed is False:
+    os.system("color " + colors[index])
+    index = index + 1
+    
+    if index > 10:
+        index = 0
     while len(a) != width:
-        os.system("cls")
         a = " " + a
         print(a)
-        sleep(0.1)
+        sleep(0.01)
         if k.is_pressed(" "):
             stopPressed = True
             break
 
     while len(a) != aLen:
-        os.system("cls")
-        a = a[1:]
+        a = a[1:]  
         print(a)
         sleep(0.01)
         if k.is_pressed(" "):
@@ -67,7 +72,6 @@ while not k.is_pressed(" ") and stopPressed is False:
             stopPressed = True
             break 
 
-print("\n")
 sleep(1)
 
 stopPressed = False 
