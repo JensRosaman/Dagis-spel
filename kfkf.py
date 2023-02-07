@@ -1,6 +1,7 @@
 import os
 from time import sleep
 import keyboard as k
+import random
 
 
 balls = ""
@@ -36,7 +37,8 @@ while not k.is_pressed(" ") and stopPressed is False:
         if k.is_pressed(" "):
             stopPressed = True
             break
-
+    
+    os.system("color " + random.choice(colors))
     while len(a) != aLen:
         a = a[1:]  
         print(a)
@@ -44,7 +46,7 @@ while not k.is_pressed(" ") and stopPressed is False:
         if k.is_pressed(" "):
             stopPressed = True
             break
-## Stage two
+ ## Stage two
 sleep(1)
 
 stopPressed = False 
