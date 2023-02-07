@@ -1,6 +1,7 @@
 import random
 from time import sleep as sleep
 import os
+import sys
 
 
 items = ["bomb", "Farmor bertas aska", "Gregs ADHD piller, Cigarette"]
@@ -16,14 +17,15 @@ class npc:
 class data:
     cash = 5
 
-shopItems = ["1. kapten Konrads Krut - 10 Riksdaler", 
-                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler", 
+shopItems = ["1. kapten Konrads Krut - 10 Riksdaler",
+                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler",
                         "3. Pers pallade äpplen - 4 Riksdaler",
                         "4. Kalles Kristall Godis - 9 Riksdaler"]    
     
 
     
-### SYSTEM FUNCTIONS
+### ---------------------------- SYSTEM FUNCTIONS -------------------------- ###
+
 
 
 def setSpeed(txtSpeed):
@@ -43,27 +45,24 @@ def slowtxt(text):
 def check(answer, wanted):
     "Checks for a list of substrings inside the argument usage: if check(INPUT,[LIST OF WANTED SUBSTRINGS]):"
     answer = answer.lower()
+    
+    # Check for inventory command
+    for alternative in ["väska", "inv", "inventory", "lager"]:
+        if alternative in answer:
+            inventory()
+            return False
 
-    # Block of code checks for special commands such as inventory
-    if "väska" in answer:
-        inventory()
-        return False
+    # Check for the exit command
+    for alternative in ["exit", "avsluta", "quit"]:
+        if answer in alternative:
+            slowtxt("Hejdå O/")
+            sleep(1)
+            sys.exit()
 
-    elif "avsluta" in answer:
-        slowtxt("Hejdå O/")
-        sleep(1)
-        os.system("EXIT")
-
-
+    # Check if the answer corresponds to the wanted answer
     for word in wanted:
         if answer is not None and word in answer:
             return True
-    
-    return False
-
-def clear():
-    os.system('cls')
-
 
 
 
@@ -73,7 +72,7 @@ def clear():
 # Inventory functions 
 
 def addinv(newItem):
-    'Adds a new item to the inventory usage: addinv("THE ITEM")'
+    'Adds a new item to the inventory usage: addinv(THE ITEM)'
     newItem = str(newItem)
     items.append(newItem)
 
@@ -81,9 +80,9 @@ def extractItem(extrRquest):
     "Checks if the requested item is in the inventory and removes it usage: extractItem("
     if extrRquest in items:
         items.remove(extrRquest)
-        return extrRquest
+        return True
     else:
-        return "no"
+        return False
 
 def inventory():
     'Displays the users inventory and allows the user to interact with it'
@@ -196,7 +195,7 @@ def bathroom():
     slowtxt("""
     Vill du kasta tärning eller vill du ta en titt på mitt utbud?, efter en sekund så fortsätter han; 
     
-    - Annars så tycker jag att du drar här ifrån för här är det endast Rangar och hans kunder som får härja!\n""")
+    - Annars så tycker jag att du drar här ifrån för här är det endast ragnar och hans kunder som får härja!\n""")
     
     
     slowtxt("Stannar du kvar, eller går du ut?")
@@ -206,17 +205,23 @@ def bathroom():
         slowtxt("Så vad blir det, köpa eller spela?")
         ragnarMenu = input("-->")
         if check(ragnarMenu, ["köpa", "affär"]):
-            rangnarShop()
+            ragnarShop()
 
         elif check(ragnarMenu, ["spela", "casino", "tärning"]):
-            rangarDices()
+            ragnarDices()
         
-        elif check(ragnarMenu, ["gå", "ut", "nej"]):
+        elif check(ragnarMenu, ["gå", "ut", "nej", "inget"]):
+            slowtxt("Nähä, stick här ifrån då!")
+            return None
             
 
 
 
-### GAMES
+### ------------------------ GAMES ------------------ ###
+
+
+
+
 
 def rockPaperScissor():
   "Simulates a game of rockpaper scissors Gets input from the user and randomizes its own and returns the result"
@@ -361,32 +366,33 @@ def TicTacToe():
 
 
 
-def rangarDices():
+def ragnarDices():
     "Gambeling randomizes two number and a match yields a win"
     dieNumber = [1 , 2 , 3 , 4, 5, 6]
     result = []
     badInput = 0
     print("\nDu har just nu ", data.cash)
     slowtxt("""Hur mycket bettar du?
-    Det rekomenderas att bara försöka beta pengar i heltal, Rangar gillar inte folk som leker run med han""")
+    Det rekomenderas att bara försöka beta pengar i heltal, ragnar gillar inte folk som leker run med han""")
     while True:
         diceBet = input("-->")
-        # If thy shan't follow basic intstructions than thy shall feel order 66,  If the user writes the wrong input ten times kill the program 
+        # If the user writes wrong input ten times kill the program 
         if badInput == 10:
             os.system("cls")
             sleep(0.5)
             slowtxt("""
-            Rangar bröt många av dem tio budorden den dagen 
+            ragnar bröt många av dem tio budorden den dagen 
             och du slapp göra matteprovet för du är nu på en bättre plats.""")
             slowtxt("Må du vila i frid")
             sleep(1)
-            os.system("exit")
-        
+            exit()
         try:
             diceBet = int(diceBet)
             break
+
+        # On invalid input inform the user.
         except:
-            slowtxt("Du kan bara betta pengar, så skriv ett vanligt heltal utan skräp innan Rangar bankar ner dig")
+            slowtxt("Du kan bara betta pengar, så skriv ett vanligt heltal utan skräp innan ragnar bankar ner dig")
             badInput = badInput + 1
 
     # Simulates two dices being thrown and adds them to the result
@@ -406,10 +412,14 @@ def rangarDices():
         print("Du vann")
 
 
-
-def rangnarShop():
-    "Handles all of the shop from the NPC Rangar"
+def ragnarShop():
+    "Handles all of the shop from the NPC ragnar"
     slowtxt("Här är det jag har att erbjuda:")
+    ### By defualt the shop includes:  
+    # ["1. kapten Konrads Krut - 10 Riksdaler",
+    # "2. Gunnar Gröna Gummibjönar - 3 Riksdaler", 
+    # "3. Pers pallade äpplen - 4 Riksdaler",
+    # "4. Kalles Kristall Godis - 9 Riksdaler"]
     for item in shopItems:
         slowtxt(item)        
             
@@ -451,7 +461,16 @@ def rangnarShop():
 def finalboss():
     pass
 
-# NPC
+
+
+
+### ----------------------------- NPC ------------------------- ###
+
+
+
+
+
+
 
 def britta():
     
@@ -500,14 +519,15 @@ def ragnarsdesk(time):
 
         slowtxt(f"""Du går för att öppna Ragnars bänk, det kanske finns något intressant där inne? 
         Du öppnar bänken och det ser ut som ett totalt bombnedslag, saker överallt. 
-        Du fortsätter rota runt lite tills du ser något glansigt.""")
+        Du fortsätter rota runt lite tills du ser något glansigt. Vågar du kolla?""")
 
-        if check(input(), ["ja", "japp", "inspektera", "kolla", "kika" ]):
+        if check(input("-->"), ["ja", "japp", "inspektera", "kolla", "kika" ]):
         
-            slowtxt(f"""Du tar upp objektet. Det verkar vara någon sorts TEMPORARY.
+            slowtxt(f"""Du tar upp objektet. Det verkar vara någon sorts kniv täkt med någon röd juice
+            förmodligen från en frukt.
              Du lägger den snabbt i fickan och stänger Ragnars bänk innan Britta ser något.""")
 
-            addinv("Ragnars objekt")
+            addinv("Ragnars kniv")
             time = time + 1
         else:
 

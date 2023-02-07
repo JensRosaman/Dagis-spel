@@ -89,8 +89,9 @@ while True:
 
 # -- GAMESTART --
 #The game/ the room "korridor" is the interconnecting room between all other rooms and acts as a hub
-moduler.clear()
-print_("""\nDu rusar in i korridoren med endast 3 minuter kvar tills lektionen börjar
+os.system("cls")
+print_("""
+    Du rusar in i korridoren med endast 3 minuter kvar tills lektionen börjar
     Rakt fram ligger klassrummet och till vänster ligger toaletterna där du hör någon böka runt. 
     Till höger om dig ligger matsalen och dörren bakom dig leder tillbaks till skolgården. \nVart går du?""")
 
