@@ -1,26 +1,23 @@
+
 import os
 import moduler
 from moduler import slowtxt as print_
 from time import sleep
 
 
-#input till funktionerna, följer mallen tid, period , pengar
 data = []
 name = ""
 cash = 10
 missinput = 0
 # period refers to one of the 3 time periods during the day, morning, lunch and afternoon. 
-# When time runs out during 1 period you move to the next one and your time resets back to 7.
+# When time runs out during 1 period you move to the next one and your time resets back
 # The game runs in cycles with each one having a limited and exclusive set of things to do.
 time = 6
 period = 1
 data = [time, period, cash]
 
-#print_ ersätter print i vår kod
-#print_ är print fast långsammare
-
-
-moduler.setSpeed(6)
+# Determines the default speed which text is displayed at
+moduler.setSpeed(4)
 os.system("color 2")
 
 print("""
@@ -96,7 +93,6 @@ print_("""
     Till höger om dig ligger matsalen och dörren bakom dig leder tillbaks till skolgården. \nVart går du?""")
 
 while True:
-    data = [time,period,cash]
     choice =  input("-->") 
     
 
@@ -112,15 +108,15 @@ while True:
         pass
    
     
-    if moduler.check(choice, ["klassrum", "raktfram", "klassrummet", "frammåt"]):
-        moduler.classroom(time, name, 0)
+    if moduler.check(choice, ["klassrum", "rakt fram", "klassrummet", "frammåt", "fram", "framåt"]):
+        moduler.classroom()
     
     #Bathroom
-    elif moduler.check(choice, ["badrummet", "vänster", "toaletten", "toalett"]):
+    elif moduler.check(choice, ["badrummet", "vänster", "toaletten", "toalett", "badrum", "toa"]):
         moduler.bathroom()
         
     #Bamba
-    elif moduler.check(choice, ["höger", "matsalen", "matsalen"]):
+    elif moduler.check(choice, ["höger", "matsalen", "matsal", "mat", "lunch"]):
         if period < 2:
             print_("Förvånade så är matsalen bara öppen när det är MAT, kom tillbaka senare")
         else:

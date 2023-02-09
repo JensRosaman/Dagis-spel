@@ -8,17 +8,22 @@ items = ["bomb", "Farmor bertas aska", "Gregs ADHD piller, Cigarette"]
 
 class npc:
     brittaCrystal = False
-    ragnarMet = False
-    brittabrittaAnger = 0
+    ragnarHaveMet = False
+    brittaAnger = 0
     brittasOverwatch = True
     bernardTrash = False
+    brittaHaveMetClassroom = False
     
 
 class data:
     cash = 5
+    time = 0
+    period = 1
+    name = "Default"
 
-shopItems = ["1. kapten Konrads Krut - 10 Riksdaler",
-                        "2. Gunnar Gröna Gummibjönar - 3 Riksdaler",
+
+shopItems = ["1. Kapten Konrads Krut - 10 Riksdaler",
+                        "2. Gunnar Gröna Gummibjörnar - 3 Riksdaler",
                         "3. Pers pallade äpplen - 4 Riksdaler",
                         "4. Kalles Kristall Godis - 9 Riksdaler"]    
     
@@ -31,7 +36,7 @@ shopItems = ["1. kapten Konrads Krut - 10 Riksdaler",
 def setSpeed(txtSpeed):
     "Sets the speed for the slowtxt function, requires a number between 1 - 10 where 1 is the slowest usage: setspeed(INTEGER)"
     txtSpeed = txtSpeed ** -1
-    txtSpeed = txtSpeed / 100
+    txtSpeed = txtSpeed / 10
     global textSpeed
     textSpeed = txtSpeed
 
@@ -54,7 +59,7 @@ def check(answer, wanted):
 
     # Check for the exit command
     for alternative in ["exit", "avsluta", "quit"]:
-        if answer in alternative:
+        if alternative in answer:
             slowtxt("Hejdå O/")
             sleep(1)
             sys.exit()
@@ -69,7 +74,7 @@ def check(answer, wanted):
 
 
 
-# Inventory functions 
+# ------------------ Inventory functions -----------------
 
 def addinv(newItem):
     'Adds a new item to the inventory usage: addinv(THE ITEM)'
@@ -116,35 +121,52 @@ def inventory():
 
 
 
-### Locations
+### -------------------------------- Locations ------------------------------ 
 
-def classroom(time, name, brittaAnger): 
+def classroom(): #3 time in classroom
     #Classroom is only availible in the morning.
     "Contains all the code for the 'room' classroom in the game, contains code for conversation items to interact and mini game"
-    if time == 6:
-            slowtxt("""Du går in i klassrummet. Vid tavlan står Britta och ser arg ut som vanligt. På bänken till vänster om dig sitter
+    if data.time == 0: #If you don't go to the classroom immediately time will be less than 6 and you're considered "late"
+            slowtxt("""
+                    Du går in i klassrummet. Vid tavlan står Britta och ser arg ut som vanligt. På bänken till vänster om dig sitter
                     Gunn-Marie och babblar om något. Bänken till höger om dig är tom, Det är Ragnars bänk. Utöver Ragnar verkar resten
-                     av klassen vara där. \"TYSTNAD!\" säger Britta till klassen men ingen verkar lyssna. Vad vill du göra?""")
+                    av klassen vara där. \"TYSTNAD!\" säger Britta till klassen men ingen verkar lyssna. Vad vill du göra?""")
         
     else:
-            text = f"""\"Du är jävligt sen, du borde skämmas {name} men jag är inte överasskad\" hör du läraren Britta säga.
-                         Ingen gillar henne egentligen men alla andra lärare slutade så det blir inte bättre än Britta. På 
-                         bänken till vänster om dig sitter Gunn-Marie och babblar om något. Bänken till höger om dig är tom, 
-                         Det är Ragnars bänk. Utöver Ragnar verkar resten av klassen vara där. Britta fortsätter med 
-                         sin genomgång fast klassen verkar inte så intresserad. Vad vill du göra?"""
+            text = f"""
+                    Du är jävligt sen, du borde skämmas {data.name} men jag är inte överasskad\" hör du läraren Britta säga framför dig.
+                    Ingen gillar henne egentligen men alla andra lärare slutade så det blir inte bättre än Britta. På 
+                    bänken till vänster om dig sitter Gunn-Marie och babblar om något. Bänken till höger om dig är tom, 
+                    Det är Ragnars bänk. Utöver Ragnar verkar resten av klassen vara där. Britta fortsätter med 
+                    sin genomgång fast klassen verkar inte så intresserad. Vad vill du göra?"""
             slowtxt(text)
-            brittaAnger = brittaAnger + 1
+            npc.brittaAnger = npc.brittaAnger + 1
     while True:
-        choice =  input("-->")
+        if data.time == 3:
+            data.period = data.period + 1
+            npc.brittasOverwatch = True
+            lunch()
+            return None
 
-        if choice == 1:
+
+        classroomChoice =  input("-->")
+
+        if check(classroomChoice, ["gunn", "gunn-marie", "vänster", "marie"]):
             gunn_marieclassroom() 
-        if choice == 2:
-            brittaclassroom()
+            data.time = data.time + 1
+        elif check(classroomChoice, ["britta", "lärare", "fram", "framåt"]):
+            britta()
+            data.time = data.time + 1
         #brittaAnger ska behållas i moduler, 3 brittaAnger för atombomb. gunn marie och britta funktioner ska ligga i moduler.py. 
+        elif check(classroomChoice, ["bänk", "höger", "ragnar",]):
+            ragnarsDesk()
+            data.time = data.time + 1
 
+            
 def lunch():
     "The lunch period."
+    #meny för att välja funktioner
+    
     slowtxt("""
     - Okej klassen det är nu dags för lunch, kom med mig! Meddelar Britta och du går in i stora matsalen
     
@@ -154,8 +176,12 @@ def lunch():
     hämta mat. Vid dörren ut till korridoren står Britta och vaktar och hon lär inte flytta sig på ett tag.
     """)
 
-# brittas ilska öka du dör, 
-def schoolyard(data):
+
+
+def schoolyard():
+    'The second to last room contains functions for communicating with several diffrent NPC'
+
+    data.time = 0
     slowtxt("""
     Med ett tjut så kör klockan igång med ett dövande ljud
     
@@ -165,30 +191,69 @@ def schoolyard(data):
     till var sin del av skolgården. Själv står du kvar bredvid Britta vid dörren lite obestämt om vart du ska gå.
 
     I högra hörnet vid soptunnorna står Bernard och gräver en rektangulär grop med en avläng sopsäck bredvid
-    när du kollar på honom så ler hann lite snett. På andra sidan skolgården så 
+    när du kollar på honom så ler hann lite snett. På andra sidan skolgården i skuggan så lutar sig Ragnar mot staketet. 
     """)
+    while True:
+        yardChoice = input("-->")
+        if data.time == 5:
+            mathTest()
+        elif check(yardChoice , ["bernard, grop , höger , sopsäck"]):
+            data.time = data.time + 1
+            pass
+
+        elif check(yardChoice , ["britta","bredvid"]):
+            data.time = data.time + 1
+            britta()
+
+        elif check(yardChoice , ["andra", "sidan" , "ragnar", "staketet"]):
+            data.time = data.time + 1
+            if npc.ragnarHaveMet:
+                slowtxt("- Ah det är du igen, hittade du min dolk?")
+
+                while True:
+                    ragnarChoice = input("-->")
+                    if check(ragnarChoice,["ja","hittade","y"]):
+                        if extractItem("Ragnars kniv"):
+                            slowtxt("Åh skönt")
+                            pass
+                        
+                        else:
+                            slowtxt("Varför ljuger du din åsna, jag ser ju att du inte har den")
+                    elif check(ragnarChoice,["nej","vilken","nope","n"]):
+                        slowtxt("Synd att höra jag hade för mig den var i klassrummet.")
+                    
 
 def bernardCorridoor(time):
     slowtxt(f"""Hallå där borta, vad gör du ute i korridoren så här sent, borde inte du ha lektion? 
                 Vet du vad, jag bryr mig inte, kan du hjälpa mig bära den här säcken till köket?\n \n 
                 På golvet bredvid Bernard ligger en skumt formad påse. Jag är sen men borde jag hjälpa eller bara gå till klassrummet?""")
-    time = time - 1
+    
+    bernardChoice = input("-->")
+    if check(bernardChoice,["ja","y"]):
+        slowtxt("Du hjälper Bernard flytta den märkligt människoformade soppåsen. Som belöning ger han dig två riksdaler.")
+        data.cash = data.cash + 1
+    else:
+        slowtxt("Nähä? Men säg inte till någon om det här då. Dags och gå till klassrummet nu min gosse.")
 
     
 
 def bathroom():
     "The room bathroom, only incudes interactions with 'Ragnar'"
+    
+    if data.time == 0 or data.time == 1:
+        data.time = data.time + 1
+        
     ShopItems = ["kapten Konrads Krut - 10 Riksdaler", 
                         "Gunnar Gröna Gummibjönar - 3 Riksdaler", 
                         "Pers pallade äpplen - 4 Riksdaler",
                         "Kalles Kristall Godis - 9 Riksdaler"]
-    if npc.ragnarMet is False:                      
+    if npc.ragnarHaveMet is False:                      
         slowtxt("""Du tar ett stort kliv in i det mörka rummet med endast en lampa som fungerar.
         Borta i andra änden av rummet så står en klasskammrat och skymer sig i mörkret\n""")
-        npc.ragnarMet = True
+        npc.ragnarHaveMet = True
 
     else:
-        slowtxt("""När du återigen stiger in i det illa luktande badrummet så står en bekant skepnad på samma ställe. """)
+        slowtxt("När du återigen stiger in i det illa luktande badrummet så står en bekant skepnad på samma ställe.")
     
     
     
@@ -200,7 +265,7 @@ def bathroom():
     
     slowtxt("Stannar du kvar, eller går du ut?")
     
-    # The shop
+    # Selection for the next path, calls a corresponding function
     if check(input("-->"), ["ja", "stanna", "yes" , "spela", "köpa", "oui"]):
         slowtxt("Så vad blir det, köpa eller spela?")
         ragnarMenu = input("-->")
@@ -210,21 +275,23 @@ def bathroom():
         elif check(ragnarMenu, ["spela", "casino", "tärning"]):
             ragnarDices()
         
+        # Exits the room and returns to 'main.py'
         elif check(ragnarMenu, ["gå", "ut", "nej", "inget"]):
             slowtxt("Nähä, stick här ifrån då!")
+            sleep(1)
+            slowtxt("- Vänta föresten om du ser min dolk någonstans kom till mig")
             return None
             
 
 
 
-### ------------------------ GAMES ------------------ ###
-
-
+### ------------------------ MiniGAMES ------------------ ###
 
 
 
 def rockPaperScissor():
   "Simulates a game of rockpaper scissors Gets input from the user and randomizes its own and returns the result"
+  
   stop = True
   while stop:
     slowtxt("Vad Väljer du; sten , sax eller påse?")
@@ -235,6 +302,7 @@ def rockPaperScissor():
         stop = False
         break
 
+ # Chooses a random number from a set of 3 which detrmines the bots output
   botPick = random.choice(range(2))
   print(botPick)
   
@@ -276,6 +344,8 @@ def rockPaperScissor():
 
 def TicTacToe():
   'Simulates the game TicTacToe against a bot. Returns "win" , "draw" , "loss"  - depending on corresponding circumstance'
+
+  # Each one - nine corresponds to a point on the board going from left to right
   one = " "
   two = " "
   three = " "
@@ -372,8 +442,9 @@ def ragnarDices():
     result = []
     badInput = 0
     print("\nDu har just nu ", data.cash)
-    slowtxt("""Hur mycket bettar du?
-    Det rekomenderas att bara försöka beta pengar i heltal, ragnar gillar inte folk som leker run med han""")
+    slowtxt("""
+    - Hur mycket bettar du?
+    Det rekomenderas att bara försöka beta pengar i heltal, ragnar gillar inte folk som leker runt med han""")
     while True:
         diceBet = input("-->")
         # If the user writes wrong input ten times kill the program 
@@ -384,10 +455,11 @@ def ragnarDices():
             ragnar bröt många av dem tio budorden den dagen 
             och du slapp göra matteprovet för du är nu på en bättre plats.""")
             slowtxt("Må du vila i frid")
-            sleep(1)
+            sleep(2)
             exit()
         try:
             diceBet = int(diceBet)
+            data.cash = data.cash - diceBet
             break
 
         # On invalid input inform the user.
@@ -402,13 +474,11 @@ def ragnarDices():
     result.append(random.choice(dieNumber))
     slowtxt("Din andra tärning blev:")
     print(result[1])
-    print(result)
-
+    
     # When the two dices match the set operation removes one of them and results in the length = 1
     if len(set(result)) == 1:
-        diceBet = int(diceBet) * 2
+        data.cash = data.cash + int(diceBet) * 2
         
-
         print("Du vann")
 
 
@@ -422,29 +492,40 @@ def ragnarShop():
     # "4. Kalles Kristall Godis - 9 Riksdaler"]
     for item in shopItems:
         slowtxt(item)        
-            
-    print(f"\nJust nu har du {data.cash} riksdaler")
+
+    slowtxt("""
+    - Jag rekomenderar starkt kristallgodiset, asså tro mig Britta blir helt galen över dem!
+    - Äpplena är inte så dumma heller om du vill vara på hennes snälla sida.""")        
+    
+    print(f"Just nu har du {data.cash} riksdaler")
     slowtxt("- Så vad blir det?")
             
     while True:
         shopChoice = input("\n-->")
         if check(shopChoice, ["kapten", "konrads" ,"krut","1"]):
-
-                addinv("kapten Konrads Krut")
-                
+            addinv("kapten Konrads Krut")
+            slowtxt("Något mer?")
+               
         elif check(shopChoice, ["2" "gunnar" "gröna" "gummibjönar"]):
-                addinv("Gunnar Gröna Gummibjönar")
+            addinv("Gunnar Gröna Gummibjönar")
 
         elif check(shopChoice, ["3" "Pers" "pallade" "päron"]):
-                addinv("Pers pallade äpplen")
-                
+            addinv("Pers pallade äpplen")
+            slowtxt("Något mer?")
+
         elif check(shopChoice, ["4", "kalles", "kristall", "godis"]):
-                addinv("Kalles Kristall Godis")
+            data.cash = data.cash - 5
+            addinv("Kalles Kristall Godis")
+            slowtxt("Något mer?")
 
-        slowtxt("\nNågot mer?")
+        
 
-        if check(input("-->"), ["n","nej","nope"]):
-                    
+        if check(input("-->"), ["n","nej","nope","allt"]):
+            slowtxt("Vill du kasta tärning eller dra")
+            
+            
+            slowtxt("- Kom gärna igen")
+            
             break        
                 
                 
@@ -474,69 +555,97 @@ def finalboss():
 
 def britta():
     
-    if period == 1:
-    
-        slowtxt(f"""Hörrudu, ska inte du jobba eller? 
-        Du vet ju att elever som inte jobbar får F. Tillbaks till din bänk med dig, eller vänta.
-        Du råkar inte ha något sånt där blått kristallgodis eller?""")
+    if data.period == 1:
+        
+        while True:
+            if npc.brittaHaveMetClassroom == False:
+                slowtxt(f"""
+            - Hörrudu, ska inte du jobba eller? 
+                Du vet ju att elever som inte jobbar får F. Tillbaks till din bänk med dig, eller vänta.
+                Du råkar inte ha något sånt där blått kristallgodis eller?""")
+                npc.brittaHaveMetClassroom = True
+            else:
+                slowtxt(f"Har du nåt kristallgodis nu eller?")
 
-        if yes:
-            slowtxt(f"""\"Ge det till mig!\" Britta rycker ut godiset ur din ficka innan du hinner reagera. \"Okej klassen, jag kommer strax tilbaka, jobba flitigt nu!\" Säger Britta, sen lämnar hon klassrummet.""")
-            brittasOverwatch = False
-        else:
-            slowtxt(f"""Nähä? Vad gör du här då, tillbaks till din bänk innan jag tar fram tofflan!""")
+                brittaChoice = input()
+                if check(brittaChoice, ["ja"]):
+                    slowtxt(f"""
+            - "Ge det till mig!" Britta rycker ut godiset ur din ficka innan du hinner reagera.
+            - "Okej klassen, jag kommer strax tilbaka, jobba flitigt nu!" Säger Britta, sen lämnar hon klassrummet.""")
+                    npc.brittasOverwatch = False
+                    npc.brittaCrystal = True
+                    break
+                elif check(brittaChoice, ["nej", "no"]):
+                    slowtxt(f"""
+            - Nähä? Vad gör du här då, tillbaks till din bänk innan jag tar fram tofflan!""")  
+                    break        
 
-    if period == 2:
+    if data.period == 2:
         if npc.brittaCrystal == True:
-            slowtxt(""" - Hallå elever får inte lämna matsalen under lunchen.
+            slowtxt(""" 
+            - Hallå elever får inte lämna matsalen under lunchen.
             Fast du råkar inte veta var det finns mer kristallgodis eller? 
             Om du gör det kan du ju gå och hämta det till Britta. Vill du ut?"""
             
             )
-            if yes:
-                slowtxt(""" - Om du inte kommer tillbaka med något godis blir det tofflan! Och säg inte om det här till någon!""")
+            brittaChoice = input()
+            if check(brittaChoice, ["ja"]):
+                slowtxt("""
+            - Om du inte kommer tillbaka med något godis blir det tofflan! Och säg inte om det här till någon!""")
+            else:
+                slowtxt(""" 
+            - Nähä, bort med dig då, gå och ät din soppa med de andra snorungarna.""")
                 
         else: 
-            slowtxt(""" - Hallå elever får inte lämna matsalen under lunchen. Fast vänta, du råkar inte ha något blått kristallgodis eller?""")
-            if yes:
-                slowtxt(""" - Okej klassen, Jag kommer strax tillbaka. Bete er nu och ät er soppa! Det finns mycket nyttigt i den. Säger Britta och lämnar klassrummet""")
+            slowtxt(""" 
+            - Hallå elever får inte lämna matsalen under lunchen. Fast vänta, du råkar inte ha något blått kristallgodis eller?""")
+            brittaChoice = input()
+            if check(brittaChoice, ["ja"]):
+                slowtxt(""" 
+            - Okej klassen, Jag kommer strax tillbaka. Bete er nu och ät er soppa! Det finns mycket nyttigt i den. Säger Britta och lämnar klassrummet""")
+                npc.brittasOverwatch = False
             else:
-                slowtxt(""" - Nähä, bort med dig då, gå och ät din soppa med de andra snorungarna.""")
+                slowtxt(""" 
+            - Nähä, bort med dig då, gå och ät din soppa med de andra snorungarna.""")
+    if data.period == 3:
+        pass
+
 
 def gunn_marieclassroom():
-    pass
+    slowtxt("Varför pratar du med mig? Jag har en pojkvän.")
 
-def ragnarsdesk(time):
-    if brittasOverwatch is True:    
+def ragnarsDesk():
+    if npc.brittasOverwatch is True:    
         
-        slowtxt(f"""Du går för att öppna Ragnars bänk, kanske finns något intressant där inne?  
-        \"Hörrudu! Det där är väl ändå inte din bänk eller? Tillbaks din din plats eller så skickar jag dig till rektorn!\" 
+        slowtxt(f"""
+        Du går för att öppna Ragnars bänk, kanske finns något intressant där inne?  
+        "Hörrudu! Det där är väl ändå inte din bänk eller? Tillbaks din din plats eller så skickar jag dig till rektorn!\" 
         hör du Britta säga. Jag får testa igen när hon är distraherad. """)
-        brittaAnger = brittaAnger + 1
-        time = time + 1
+        npc.brittaAnger = npc.brittaAnger + 1
 
     else:
 
-        slowtxt(f"""Du går för att öppna Ragnars bänk, det kanske finns något intressant där inne? 
+        slowtxt(f"""
+        Du går för att öppna Ragnars bänk, det kanske finns något intressant där inne? 
         Du öppnar bänken och det ser ut som ett totalt bombnedslag, saker överallt. 
         Du fortsätter rota runt lite tills du ser något glansigt. Vågar du kolla?""")
 
         if check(input("-->"), ["ja", "japp", "inspektera", "kolla", "kika" ]):
         
-            slowtxt(f"""Du tar upp objektet. Det verkar vara någon sorts kniv täkt med någon röd juice
+            slowtxt(f"""
+            Du tar upp objektet. Det verkar vara någon sorts kniv täkt med någon röd juice
             förmodligen från en frukt.
              Du lägger den snabbt i fickan och stänger Ragnars bänk innan Britta ser något.""")
-
             addinv("Ragnars kniv")
-            time = time + 1
-        else:
 
+        else:
             slowtxt(f"""Du lägger tillbacka objektet och stänger Ragnars bänk innan Britta ser något""")
-            time = time + 1
+
             
 
 def food():
-    slowtxt(f"""Du går fram till mattanten och visar upp din skål.
+    slowtxt(f"""
+    Du går fram till mattanten och visar upp din skål.
     -Här får du lite soppa, det finns alltid mer om du vill ha!
     Du kollar ner i skålen och ser en grå soppa som ser giftig ut.""")
     addinv("Skolans Soppa")
