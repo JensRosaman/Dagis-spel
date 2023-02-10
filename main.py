@@ -133,7 +133,6 @@ while True:
             moduler.food()
    
     elif moduler.check(choice, []):
-        # Bernard is the Janitor. Name can change later.
         moduler.bernardCorridor()
         
     elif moduler.check(choice, []):
