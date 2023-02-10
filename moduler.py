@@ -527,22 +527,7 @@ def ragnarShop():
             slowtxt("- Kom gärna igen")
             
             break        
-                
-                
-            
-            
-             
-            
-            
-            
-            
         
-    
-
-def finalboss():
-    pass
-
-
 
 
 ### ----------------------------- NPC ------------------------- ###
@@ -554,7 +539,7 @@ def finalboss():
 
 
 def britta():
-    
+
     if data.period == 1:
         
         while True:

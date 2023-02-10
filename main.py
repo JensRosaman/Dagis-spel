@@ -44,7 +44,7 @@ print_("Om det är första gången du spelar rekomenderas att läsa instruktione
 print_("""                
                           1.Starta spelet\n
                           2.Instruktioner\n
-                          3.Inställningar\n""")
+                          3.Texthastighet\n""")
 
 os.system("color")
 
@@ -56,24 +56,35 @@ while True:
     elif moduler.check(menuChoice,["instruktioner", "2"]):
         print_("""
         Spelet utspelar sig en vanlig dag på ditt dagis där du har ett matteprov som du inte har studerat till.
-        Du måste hitta något sätt att klara provet för du vet att din mamma kommer bli väldigt besviken på dig annars.
-        I skolan kan du välja fritt vart du vill gå och du kan exempelvis plocka upp saker du hittar på marken eller prata med personer
-        för att hjälpa dig på din resa att slingra dig ur ett F på matteprovet.
+        Du måste hitta något sätt att klara provet för du vet att din mamma kommer bli väldigt besviken på dig 
+        annars. I skolan kan du välja fritt vart du vill gå och du kan exempelvis plocka upp saker du hittar på 
+        marken eller prata med personer för att hjälpa dig på din resa att slingra dig ur ett F på matteprovet.
 
-        För att röra dig runt skriv simpla kommandon så som gå höger, gå rakt fram, gå till klassrummet, klassrum, prata med Gunnbritt eller liknande.
+        För att navigera dig skriv simpla kommandon så som gå höger,rakt fram, gå till klassrum, prata med 
+        Britta eller liknande. För att klara dig undan så krävs det att du gör en rad av specefika saker innan
+        provet.
         
         """)
-        print_("Är du redo att börja ditt äventyr? y/n")
-        ready = input("-->")
-        if ready == "y":
+        print_("Är du redo att börja ditt äventyr?")
+        if moduler.check(input("-->"),["ja","y","absolut"]):
             break
-
+        
+        else:
+            print_("""                
+                          1.Starta spelet\n
+                          2.Instruktioner\n
+                          3.Texthastighet\n""")
+    
     # Settings
     elif moduler.check(menuChoice,["inställning", "3"]):
-        print_("Vilken texthastighet vill du ha? - obs endast tal inga bokstäver")
-
-        txtSpeed = input("-->")
-        txtSpeed = float(txtSpeed)
+        while True:
+            print_("Vilken texthastighet vill du ha? 1 - 10 är 10 är snabbast")
+            txtSpeed = input("-->")
+            try:
+                txtSpeed = float(txtSpeed)
+                break
+            except:
+                print_("Obs skriv in endast ett heltal")
         moduler.setSpeed(txtSpeed)
         break
 
