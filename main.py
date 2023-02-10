@@ -1,8 +1,7 @@
-
+from time import sleep
 import os
 import moduler
 from moduler import slowtxt as print_
-from time import sleep
 
 
 data = []
@@ -131,7 +130,7 @@ while True:
         if period < 2:
             print_("Förvånade så är matsalen bara öppen när det är MAT, kom tillbaka senare")
         else:
-                moduler.food()
+            moduler.food()
    
     elif moduler.check(choice, []):
         # Bernard is the Janitor. Name can change later.
