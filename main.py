@@ -112,7 +112,7 @@ while True:
         time = time + 6
     #After the 3rd period you move into the final event instead of a 4th period. 
     if period > 3:
-        moduler.finalboss()
+        moduler.mathTest()
             
     if period == 2:
         pass

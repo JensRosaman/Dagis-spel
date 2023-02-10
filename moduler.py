@@ -176,6 +176,11 @@ def lunch():
     hämta mat. Vid dörren ut till korridoren står Britta och vaktar och hon lär inte flytta sig på ett tag.
     """)
 
+    while True:
+        lunchChoice = input("-->")
+
+        if check(lunchChoice, ["nibba"]):
+            pass 
 
 
 def schoolyard():
@@ -191,20 +196,31 @@ def schoolyard():
     till var sin del av skolgården. Själv står du kvar bredvid Britta vid dörren lite obestämt om vart du ska gå.
 
     I högra hörnet vid soptunnorna står Bernard och gräver en rektangulär grop med en avläng sopsäck bredvid
-    när du kollar på honom så ler hann lite snett. På andra sidan skolgården i skuggan så lutar sig Ragnar mot staketet. 
+    när du kollar på honom så ler hann lite snett. På andra sidan skolgården i skuggan så lutar sig Ragnar mot staketet
+    och i mitten av skolgården sitter Gunn-Marie och spelar Tre I Rad. 
     """)
     while True:
         yardChoice = input("-->")
+
+        # ends function and begins next function when time is up
         if data.time == 5:
             mathTest()
+            return
         elif check(yardChoice , ["bernard, grop , höger , sopsäck"]):
             data.time = data.time + 1
             pass
-
+        
         elif check(yardChoice , ["britta","bredvid"]):
             data.time = data.time + 1
             britta()
 
+        elif check(yardChoice,["gunn", "marie","mitten","tre i rad"]):
+            slowtxt("- Hej vill du tjäna lite para? Reglerna är simpla betta pengar och spela mot mig")
+            TicTacToe()
+            
+
+
+        # interactions with Ragnar
         elif check(yardChoice , ["andra", "sidan" , "ragnar", "staketet"]):
             data.time = data.time + 1
             if npc.ragnarHaveMet:
@@ -214,16 +230,36 @@ def schoolyard():
                     ragnarChoice = input("-->")
                     if check(ragnarChoice,["ja","hittade","y"]):
                         if extractItem("Ragnars kniv"):
-                            slowtxt("Åh skönt")
-                            pass
+                            slowtxt("""
+            Åh skönt räddarn i nöden asså. Trodde aldrig att skulle kunna få äta upp mina äpplen.
+            Jag antar att du förtjänar något i gentjänst, jag hittade facit till matteprovet så 
+            vad sägs om att vi kör sten sax påse om den? För tro mig jag kommer behöver den också.
+                            """)
+                            while True:
+                                result = rockPaperScissor()
+                                if result == "win":
+                                    slowtxt("- Näh jag svär jag såg dig fuska, aja ta den du vann")
+                                    addinv("facit")
+                                    break
+                                
+                                elif result == "draw":
+                                    slowtxt("- Det blev lika, vi kör igen")
+                                    result = rockPaperScissor()
+                                    continue
+
+                                elif result == "loss":
+                                    slowtxt("- Haha för enkelt, säg mig för 5 riksdaler låter jag köra igen\nVad tycks?")
                         
+                        # if theres no knife in inv
                         else:
                             slowtxt("Varför ljuger du din åsna, jag ser ju att du inte har den")
+                    
+                    # skips dialougue
                     elif check(ragnarChoice,["nej","vilken","nope","n"]):
                         slowtxt("Synd att höra jag hade för mig den var i klassrummet.")
                     
 
-def bernardCorridoor(time):
+def bernardCorridoor():
     slowtxt(f"""Hallå där borta, vad gör du ute i korridoren så här sent, borde inte du ha lektion? 
                 Vet du vad, jag bryr mig inte, kan du hjälpa mig bära den här säcken till köket?\n \n 
                 På golvet bredvid Bernard ligger en skumt formad påse. Jag är sen men borde jag hjälpa eller bara gå till klassrummet?""")
@@ -542,7 +578,6 @@ def britta():
 
     if data.period == 1:
         
-        while True:
             if npc.brittaHaveMetClassroom == False:
                 slowtxt(f"""
             - Hörrudu, ska inte du jobba eller? 
@@ -552,17 +587,21 @@ def britta():
             else:
                 slowtxt(f"Har du nåt kristallgodis nu eller?")
 
+            while True:
                 brittaChoice = input()
-                if check(brittaChoice, ["ja"]):
+                if check(brittaChoice, ["ja"]) and extractItem("Kalles Kristall Godis"):
                     slowtxt(f"""
             - "Ge det till mig!" Britta rycker ut godiset ur din ficka innan du hinner reagera.
             - "Okej klassen, jag kommer strax tilbaka, jobba flitigt nu!" Säger Britta, sen lämnar hon klassrummet.""")
                     npc.brittasOverwatch = False
                     npc.brittaCrystal = True
                     break
+                elif check(brittaChoice, ["ja"]) and extractItem("Kalles Kristall Godis") == False:
+                    slowtxt(" - Nu ljuger du ju bara för mig? Tillbaks till bänken och jobba!")
+                    break
                 elif check(brittaChoice, ["nej", "no"]):
                     slowtxt(f"""
-            - Nähä? Vad gör du här då, tillbaks till din bänk innan jag tar fram tofflan!""")  
+                 - Nähä? Vad gör du här då, tillbaks till din bänk innan jag tar fram tofflan!""")  
                     break        
 
     if data.period == 2:
@@ -597,7 +636,7 @@ def britta():
 
 
 def gunn_marieclassroom():
-    slowtxt("Varför pratar du med mig? Jag har en pojkvän.")
+    slowtxt(" - Varför pratar du med mig? Jag har en pojkvän.")
 
 def ragnarsDesk():
     if npc.brittasOverwatch is True:    
